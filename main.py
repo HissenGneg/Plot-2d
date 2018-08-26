@@ -13,6 +13,12 @@ pygame.display.update()
 
 xScale = 64
 yScale = 48
+# xStart = 0
+# xEnd = 10
+# yStart = 0
+# yEnd = 10
+
+# def interval_to_scale():
 
 #converts point to pixel location
 def point_to_pixel(inputTuple):
@@ -62,8 +68,17 @@ def generate_point():
         pointList.append((x,y))
     return(pointList)
 
-#def parse_function():
-#(not yet completed)
+def parse_function(string_input):
+	# Assuming string_input is a math function with one variable, x
+	# 'eval()' interprets a string like actual code
+	# https://stackoverflow.com/questions/40828921/parsing-a-string-input-into-a-lambda-function-python
+	# https://stackoverflow.com/questions/9383740/what-does-pythons-eval-do
+	# Lambda functions are useful when writing small anonymous functions
+	# They're come in handy when writing math expressions as writing math
+	# like a normal function wouldn't make much sense
+	# https://www.w3schools.com/python/python_lambda.asp
+	math_function = lambda x: eval(string_input)
+	return math_function
 
 #Main function
 def main():
@@ -78,6 +93,10 @@ def main():
             if events.type == pygame.QUIT:
                 sys.exit(0)
 
-#Boiler plate to initialize main function
-if __name__ == "__main__":
-    main()
+eval('2 + 2')
+# function = parse_function('2x+2')
+# for i in range(10):
+	# yValue = function(i)
+	# print('yValue ' + yValue)
+
+main()
