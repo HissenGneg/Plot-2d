@@ -7,15 +7,6 @@ class Curve:
         self.color = color
         self.width = width
 
-    # converts point to pixel location
-    def point_to_pixel(self, inputTuple):
-        point_x = inputTuple[0]
-        point_y = inputTuple[1]
-
-        pixel_x = point_x * 64
-        pixel_y = (48 * 10) - (point_y * 48)
-        return pixel_x, pixel_y
-
     def get_pointlist(self):
         pointlist = []
         # Hardcoded values
