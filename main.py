@@ -1,4 +1,5 @@
-import sys, pygame
+import sys
+import pygame
 from colors import colorDictionary as Color
 from curve import Curve
 from window import Window
@@ -11,8 +12,8 @@ width, height = 640, 480
 # xEnd = 20
 # yStart = 0
 # yEnd = 20
-x_interval = (0, 10)
-y_interval = (0, 10)
+x_interval = (-3, 10)
+y_interval = (-3, 10)
 
 window = Window(width, height, x_interval, y_interval)
 
@@ -53,7 +54,10 @@ def main():
     while True:
         # generate_grid()
         # generate_axis()
+        window.generate_grid()
         window.generate_axis()
+        # print(window.new_point_to_pixel(10, None))
+        # print(window.new_point_to_pixel(None, 0))
         # generate_graph()
         pygame.display.update()
 
