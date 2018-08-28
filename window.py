@@ -107,12 +107,18 @@ class Window:
             return pixel_x, pixel_y
         elif point_x is not None:
             # Only a x coordinate has been entered as parameter
-            pixel_x = abs(point_x - self.x_interval[0]) * self.scale[0]
+            # pixel_x = abs(point_x - self.x_interval[0]) * self.scale[0]
+            # The absolute value is not necessary for (point_x - self.x_interval[0]), because no x point in the
+            # interval can cause the difference to be negative. (point_x - self.x_interval[0]) >= 0
+            pixel_x = (point_x - self.x_interval[0]) * self.scale[0]
             # print('Returning pixel for just one x value, x ' + str(pixel_x))
 
             return pixel_x
         elif point_y is not None:
             # Only a y coordinate has been entered as parameter
+            # The absolute value is necessary here because the length, (point_y - self.y_interval[1]), will be
+            # negative for all y points except for the biggest y value in the interval
+            # (point_y - self.y_interval[1]) <= 0
             pixel_y = abs(point_y - self.y_interval[1]) * self.scale[1]
 
             # print('Returning pixel for just one y value, y ' + str(pixel_y))
