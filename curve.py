@@ -1,27 +1,16 @@
-import pygame
-
-
 class Curve:
-    def __init__(self, function, color, width):
-        self.function = function
+    def __init__(self, curve_function, color, width):
+        self.curve_function = curve_function
         self.color = color
         self.width = width
 
-    def get_pointlist(self):
+    def get_pointlist(self, x_interval):
         pointlist = []
-        # Hardcoded values
-        for x in range(10):
-            print('Generated point ({}, {})'.format(x, self.function(x)))
-            pointlist.append((x, self.function(x)))
+
+        # Add one to the stop value of the range function. Otherwise if you have an x interval 0 < x < 10, it will
+        # only generate points up to and including 9. Why is it so?
+        for x in range(x_interval[0], (x_interval[1] + 1)):
+            # print('Generated point ({}, {})'.format(x, self.curve_function(x)))
+            pointlist.append((x, self.curve_function(x)))
 
         return pointlist
-
-    def get_pixellist(self):
-        point_list = self.get_pointlist()
-        pixel_list = []
-        for i in range(len(point_list)):
-            pixel_list.append(self.point_to_pixel(point_list[i]))
-        return pixel_list
-
-    def draw(self, surface):
-        pygame.draw.lines(surface, self.color, False, self.get_pixellist(), self.width)

@@ -22,7 +22,11 @@ window = Window(width, height, x_interval, y_interval)
 def generate_graph():
     # pygame.draw.lines(window, Color['black'], False, generate_pixels(), 1)
     first_curve = Curve(lambda x: x, Color['black'], 1)
-    first_curve.draw(window)
+    second_curve = Curve(lambda x: x ** 2, Color['red'], 1)
+    third_curve = Curve(lambda x: 4 * (x ** 3) + 3 * (x ** 2) + 2 * x + 1, Color['green'], 1)
+    window.draw_curve(first_curve)
+    window.draw_curve(second_curve)
+    window.draw_curve(third_curve)
 
 
 # Generates the points based on input function
@@ -52,13 +56,11 @@ def parse_function(string_input):
 # Main function
 def main():
     while True:
-        # generate_grid()
-        # generate_axis()
         window.generate_grid()
         window.generate_axis()
         # print(window.new_point_to_pixel(10, None))
         # print(window.new_point_to_pixel(None, 0))
-        # generate_graph()
+        generate_graph()
         pygame.display.update()
 
         # Makes sure the program doesn't crash when quitting

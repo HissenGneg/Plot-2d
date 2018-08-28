@@ -95,6 +95,15 @@ class Window:
         return surface
 
     def new_point_to_pixel(self, point_x=None, point_y=None):
+        '''
+        New implementation of the point to pixel function.
+        Overloading functions in Python:
+        https://stackoverflow.com/questions/7113032/overloaded-functions-in-python
+        :param point_x: Optional
+        :param point_y: Optional
+        :return: If a single parameter is entered it returns a single number.
+        If a point is entered as parameter the function returns a tuple.
+        '''
         if point_x is None and point_y is None:
             # At least one parameter is required
             return
@@ -119,58 +128,29 @@ class Window:
             # The absolute value is necessary here because the length, (point_y - self.y_interval[1]), will be
             # negative for all y points except for the biggest y value in the interval
             # (point_y - self.y_interval[1]) <= 0
-            pixel_y = abs(point_y - self.y_interval[1]) * self.scale[1]
+            if point_y > self.y_interval[1]:
+                pixel_y = (self.y_interval[1] - point_y) * self.scale[1]
+            else:
+                pixel_y = abs(point_y - self.y_interval[1]) * self.scale[1]
 
             # print('Returning pixel for just one y value, y ' + str(pixel_y))
             return pixel_y
 
-    def point_to_pixel(self, point_x=None, point_y=None):
-        '''
-        New implementation of the point to pixel function.
-        Overloading functions in Python:
-        https://stackoverflow.com/questions/7113032/overloaded-functions-in-python
-        :param point_x: Optional
-        :param point_y: Optional
-        :return: If a single parameter is entered it returns a single number.
-        If a point is entered as parameter the function returns a tuple.
-        '''
-        if point_x is None and point_y is None:
-            # At least one parameter is required
-            return
-        elif point_x is not None and point_y is not None:
-            # A point has been entered as parameter
-            # pixel_x = point_x * self.scale[0]
+    def point_list_to_pixel_list(self, point_list):
+        pixel_list = []
 
-            # The subtraction is necessary as pygame starts counting the y pixels from the top to bottom
-            # The 10 was the previous hardcoded value as the y-axis was drawn from 0 to 10
-            # pixel_y = (self.scale[1] * 10) - (point_y * self.scale[1])
+        for i in range(len(point_list)):
+            # The point to pixel function expects two arguments one x and one y, you can't send it a tuple with both
+            # Although that would be a good addition
+            pixel_list.append(self.new_point_to_pixel(point_list[i][0], point_list[i][1]))
 
-            pixel_x = self.point_to_pixel(point_x, None)
-            pixel_y = self.point_to_pixel(None, point_y)
-            print('Returning pixels for point, x ' + str(pixel_x) + ' y ' + str(pixel_y))
-            return pixel_x, pixel_y
-        elif point_x is not None:
-            # Only a x coordinate has been entered as parameter
-            # You need to also consider that the x-axis might not be drawn at the left side of the screen
-            # It might be drawn in the middle
-            # pixel_x = x * self.scale[0]
-            if point_x == 0:
-                pixel_x = (self.x_interval_length / 2) * self.scale[0]
-            # elif point_x > 0:
-                # pixel_x = ((self.x_interval_length / 2) + point_x) * self.scale[0]
-            # elif point_x < 0:
-                # pixel_x = ((self.x_interval_length / 2) - point_x) * self.scale[0]
-            else:
-                pixel_x = ((self.x_interval_length / 2) + point_x) * self.scale[0]
+        return pixel_list
 
-            print('Returning pixel for just one x value, x ' + str(pixel_x))
-            return pixel_x
-        elif point_y is not None:
-            # Only a y coordinate has been entered as parameter
-            if point_y >= 0:
-                pixel_y = (self.scale[1] * self.y_interval[1]) - (point_y * self.scale[1])
-            else:
-                pixel_y = (self.scale[1] * self.y_interval[1]) - (point_y * self.scale[1])
-
-            print('Returning pixel for just one y value, y ' + str(pixel_y))
-            return pixel_y
+    def draw_curve(self, curve):
+        pygame.draw.lines(
+            self.surface,
+            curve.color,
+            False,
+            self.point_list_to_pixel_list(curve.get_pointlist(self.x_interval)),
+            curve.width
+        )
