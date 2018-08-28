@@ -8,12 +8,8 @@ pygame.init()
 
 width, height = 640, 480
 
-# xStart = 0
-# xEnd = 20
-# yStart = 0
-# yEnd = 20
-x_interval = (-3, 10)
-y_interval = (-3, 10)
+x_interval = (-5, 15)
+y_interval = (-5, 15)
 
 window = Window(width, height, x_interval, y_interval)
 
@@ -27,17 +23,6 @@ def generate_graph():
     window.draw_curve(first_curve)
     window.draw_curve(second_curve)
     window.draw_curve(third_curve)
-
-
-# Generates the points based on input function
-def generate_point():
-    point_list = []
-    for i in range(1000):
-        i = i * 0.01
-        x = i
-        y = (x * x)
-        point_list.append((x, y))
-    return point_list
 
 
 def parse_function(string_input):
@@ -58,6 +43,7 @@ def main():
     while True:
         window.generate_grid()
         window.generate_axis()
+        window.generate_number_lines()
         # print(window.new_point_to_pixel(10, None))
         # print(window.new_point_to_pixel(None, 0))
         generate_graph()

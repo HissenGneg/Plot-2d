@@ -42,51 +42,54 @@ class Window:
                 1,
             )
 
-    def generate_number_lines(self):
+    def generate_number_lines(self, line_height=0.5, line_width=3):
+        line_height_for_one_side = (line_height / 2)
         # Generates the a line for all even x points
         for x in range(self.x_interval[0], self.x_interval[1]):
             if x % 2 == 0:
-                pass
-                # Make markings for every second line.
-                # pygame.draw.line(self.surface, Color['black'], (0, y_start), (5, y_start), 2)
-                # pygame.draw.line(self.surface, Color['black'], (x_start, self.height), (x_start, self.height - 5), 2)
-                # pygame.draw.line(
-                    # self.surface,
-                    # Color['black'],
-                    # self.new_point_to_pixel(),
-                    # self.new_point_to_pixel(),
-                    # 2,
-                # )
+                pygame.draw.line(
+                    self.surface,
+                    Color['black'],
+                    self.new_point_to_pixel(x, 0 + line_height_for_one_side),
+                    self.new_point_to_pixel(x, 0 - line_height_for_one_side),
+                    line_width,
+                )
+
+        for y in range(self.y_interval[0], self.y_interval[1]):
+            if y % 2 == 0:
+                pygame.draw.line(
+                    self.surface,
+                    Color['black'],
+                    self.new_point_to_pixel(0 - line_height_for_one_side, y),
+                    self.new_point_to_pixel(0 + line_height_for_one_side, y),
+                    line_width,
+                )
 
     # The axis should be drawn with the help of points in the window rather than pixels
     # Then use the point_to_pixel function to draw them with pygame
     # The axis should only be drawn in the interval
     def generate_axis(self):
-        # pygame.draw.line(self.surface, Color['black'], (0, 0), (0, height), 5)
         # Vertical line
         # Drawn from top to bottom of the screen
         # The x position is the same on both points
         # The first point has the y position of the end of the y_interval to pixels
         # The second point has the y position of the start of the y_interval to pixels
-        # vertical_start_position = (self.point_to_pixel(0, None), self.point_to_pixel(None, self.y_interval[1]))
         vertical_start_position = self.new_point_to_pixel(0, self.y_interval[1])
-        # vertical_end_position = (self.point_to_pixel(0, None), self.point_to_pixel(None, self.y_interval[0]))
         vertical_end_position = self.new_point_to_pixel(0, self.y_interval[0])
         pygame.draw.line(self.surface, Color['black'], vertical_start_position, vertical_end_position, 5)
         # print('Drawing vertical line from ' + str(vertical_start_position) + ' to ' + str(vertical_end_position))
 
-        # pygame.draw.line(self.surface, Color['black'], (0, height), (width, height), 5)
         # Horizontal line
         # Drawn from left to right of the screen
         # The y position is the same on both points, 0 to pixels
         # The first point has the x position of the start of the x_interval to pixels
         # The second point has the x position of the end of the x_interval to pixels
-        # horizontal_start_position = (self.point_to_pixel(self.x_interval[0]), self.point_to_pixel(None, 0))
         horizontal_start_position = self.new_point_to_pixel(self.x_interval[0], 0)
-        # horizontal_end_position = (self.point_to_pixel(self.x_interval[1]), self.point_to_pixel(None, 0))
         horizontal_end_position = self.new_point_to_pixel(self.x_interval[1], 0)
         pygame.draw.line(self.surface, Color['black'], horizontal_start_position, horizontal_end_position, 5)
-        # print('Drawing horizontal line from ' + str(horizontal_start_position) + ' to ' + str(horizontal_end_position))
+        # print(
+        # 'Drawing horizontal line from ' + str(horizontal_start_position) + ' to ' + str(horizontal_end_position)
+        # )
 
     def create_surface(self):
         surface = pygame.display.set_mode((self.width, self.height))
@@ -151,6 +154,6 @@ class Window:
             self.surface,
             curve.color,
             False,
-            self.point_list_to_pixel_list(curve.get_pointlist(self.x_interval)),
+            self.point_list_to_pixel_list(curve.get_pointlist(self.x_interval, 100)),
             curve.width
         )
