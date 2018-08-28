@@ -1,0 +1,9 @@
+.vscode/
+.idea/misc.xml
+.idea/modules.xml
+.idea/Plot-2d.iml
+.idea/vcs.xml
+.idea/workspace.xml
+__pycache__/colors.cpython-37.pyc
+__pycache__/curve.cpython-37.pyc
+__pycache__/window.cpython-37.pyc
